@@ -1,0 +1,62 @@
+#ifndef DB_H
+#define DB_H
+
+#include <functional>
+
+#include <QString>
+
+#include "builder.h"
+#include "blueprint.h"
+
+class DB
+{
+    friend class Builder;
+    friend class BluePrint;
+
+    /**
+     * Using reference type will allow users to
+     * use BluePrint value type as the parameter,
+     * which makes the function no effect, and
+     * an table with no columns will be created.
+     *
+     * Pointer type also provides a php-like usage:
+     *     table->integer("id");
+     */
+    using F = std::function<void(BluePrint *)>;
+
+public:
+    static bool initialize(const QString &driver, const QString &host, int port=0,
+                           const QString username="", const QString password="",
+                           const QString database="");
+
+    static bool initialize(const QString &driver, const QString &fileName, const QString &connectionName);
+
+    static Builder table(const QString &table);
+
+    static bool create(const QString &tableName, F func);
+
+    template<typename T>
+    static bool createIfNotExists(F func){
+        BluePrint table("create table if not exists", T::table());
+        func(&table);
+        return table.commit_<T>();
+    };
+
+    static bool createIfNotExists(const QString &tableName, F func);
+
+    static bool isSqlite();
+
+    static QString lastErrorMessage();
+
+    static QString sqlTime(int relativeSeconds = 0);
+
+
+private:
+    static void setErrorMessage(const QString &error = QString());
+
+protected:
+    static QString errorMessage;
+    static QString driver;
+};
+
+#endif // DB_H

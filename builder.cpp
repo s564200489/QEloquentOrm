@@ -70,6 +70,24 @@ bool Builder::update(Model &model)
     }
 }
 
+bool Builder::remove()
+{
+    QString queryStatement = QString("select * from %1").arg(tableClause);
+    if (whereClause.size())
+        queryStatement += QString(" where %1").arg(whereClause);
+    if (Query query = exec(queryStatement, QSqlDatabase::database(connectionName))) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+void Builder::setWhereClause(QString st)
+{
+    this->whereClause = st;
+}
+
 Builder &Builder::where(const QString &key, const QString &op, const QVariant &value, const QString &boolean)
 {
     if (whereClause.size())

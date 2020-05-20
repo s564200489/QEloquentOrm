@@ -88,6 +88,7 @@
         template<class T> T belongsTo(const QString &foreignKey = className().toLower() + "_" + primaryKey(), const QString &localKey = primaryKey()) const \
         { return Builder(T::table(), #connectionName).where(localKey, get(foreignKey)).first(); } \
         BUILDER_ADAPTER_DB(where) \
+        BUILDER_ADAPTER_DB(remove) \
         /* debug */ \
         void dump() \
         { qDebug() << className(); for (QString key : this->keys()) qDebug("%s: %s,", key.toLatin1().data(), (*this)[key].toString().toLatin1().data()); } \

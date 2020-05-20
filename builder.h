@@ -30,12 +30,15 @@ public:
     bool insert(Model &model);
     bool update(Model &model);
 
+    void setWhereClause(QString st);
     Builder &where(const QString &key, const QString &op, const QVariant &value,
                    const QString &boolean = "and");
     Builder &where(const QString &key, const QVariant &value);
 
     Builder &take(int limit);
     Builder &skip(int offset);
+
+    bool remove();
 
     Collection select(const QString &column = "*") const;
     //Collection get(const QString &column = "*") const;

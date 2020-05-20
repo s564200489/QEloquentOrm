@@ -46,9 +46,10 @@ int main(int, char *[])
 
     User user;
     user.set("name", "Infinity");
+    user.set("info", "");
     if (user.save() == false)
         qDebug() << DB::lastErrorMessage();
-    return  1;
+
     qDebug()<<"User::find"<<User::find(1).get("name");
 
     auto li = User::where("name", "Infinity").select();

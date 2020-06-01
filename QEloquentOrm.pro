@@ -3,10 +3,9 @@ QT       -= gui
 
 CONFIG += c++11
 
-TARGET = Inloquent
+TARGET = QEloquentOrm
 TEMPLATE = app
 
-DEFINES += INLOQUENT_LIBRARY
 
 unix {
     target.path = /usr/lib

@@ -72,7 +72,7 @@ bool Builder::update(Model &model)
 
 bool Builder::remove()
 {
-    QString queryStatement = QString("select * from %1").arg(tableClause);
+    QString queryStatement = QString("delete from %1").arg(tableClause);
     if (whereClause.size())
         queryStatement += QString(" where %1").arg(whereClause);
     if (Query query = exec(queryStatement, QSqlDatabase::database(connectionName))) {
